@@ -165,3 +165,73 @@ document.querySelectorAll("[data-copy-email]").forEach((button) => {
       });
   });
 });
+
+const mediumRoot = document.querySelector("[data-medium-list]");
+if (mediumRoot) {
+  fetch("data/medium.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Falha no carregamento");
+      }
+      return response.json();
+    })
+    .then((articles) => {
+      mediumRoot.innerHTML = "";
+      articles.forEach((article, index) => {
+        mediumRoot.appendChild(createMediumCard(article, index));
+      });
+    })
+    .catch(() => {
+      mediumRoot.innerHTML = '<div class="medium-grid__loading">Erro ao carregar artigos.</div>';
+    });
+}
+
+function createMediumCard(article, index) {
+  const card = document.createElement("article");
+  card.className = "medium-card";
+  card.style.animationDelay = `${index * 80}ms`;
+
+  const cover = document.createElement("div");
+  cover.className = "medium-card__cover";
+  if (article.coverImage) {
+    cover.style.backgroundImage = `linear-gradient(180deg, rgba(3, 3, 9, 0.1), rgba(3, 3, 9, 0.8)), url('${article.coverImage}')`;
+  }
+  const badge = document.createElement("span");
+  badge.className = "medium-card__badge";
+  badge.textContent = formatDateBadge(article.publishedAt);
+  cover.appendChild(badge);
+
+  const body = document.createElement("div");
+  body.className = "medium-card__body";
+
+  const title = document.createElement("h3");
+  title.className = "medium-card__title";
+  const titleLink = document.createElement("a");
+  titleLink.href = article.url;
+  titleLink.target = "_blank";
+  titleLink.rel = "noreferrer";
+  titleLink.textContent = article.title;
+  title.appendChild(titleLink);
+
+  const excerpt = document.createElement("p");
+  excerpt.className = "medium-card__excerpt";
+  excerpt.textContent = article.excerpt;
+
+  const readMore = document.createElement("a");
+  readMore.className = "medium-card__link";
+  readMore.href = article.url;
+  readMore.target = "_blank";
+  readMore.rel = "noreferrer";
+  readMore.textContent = "Ler no Medium →";
+
+  body.append(title, excerpt, readMore);
+  card.append(cover, body);
+  return card;
+}
+
+function formatDateBadge(dateString) {
+  if (!dateString) return "Medium";
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "Medium";
+  return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
+}
