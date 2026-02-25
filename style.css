@@ -500,6 +500,126 @@ body {
   color: var(--ink);
 }
 
+/* ── TIMELINE ── */
+.timeline {
+  overflow-x: auto;
+  padding-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline__track {
+  position: relative;
+  display: flex;
+  gap: 0;
+  min-width: 860px;
+  padding-top: 48px;
+}
+
+.timeline__line {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: var(--border);
+}
+
+.timeline__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0 16px;
+}
+
+.timeline__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  border: 2px solid var(--bg);
+  outline: 1px solid var(--ink-faint);
+  margin-bottom: 28px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline__item--current .timeline__dot {
+  background: var(--accent);
+  outline-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(200, 169, 110, 0.15);
+}
+
+.timeline__card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.timeline__card:hover {
+  box-shadow: 0 8px 32px rgba(14,14,14,0.08);
+  transform: translateY(-2px);
+}
+
+.timeline__item--current .timeline__card {
+  border-color: rgba(200, 169, 110, 0.3);
+  background: #fffdf8;
+}
+
+.timeline__period {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.timeline__role {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.timeline__company {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-dark);
+  letter-spacing: 0.03em;
+}
+
+.timeline__desc {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+.timeline__badge {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(200, 169, 110, 0.12);
+  border: 1px solid rgba(200, 169, 110, 0.3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
 /* ── FOOTER ── */
 .footer {
   padding: 32px 48px;
