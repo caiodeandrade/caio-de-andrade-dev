@@ -3,97 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Caio Andrade · Desenvolvedor Mobile & Full Stack</title>
-    <meta
-      name="description"
-      content="Caio Andrade — engenheiro de software mobile e full stack, criando produtos end-to-end e explorando projetos com IA."
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <title>Caio Andrade · Mobile Engineer</title>
+    <meta name="description" content="Caio Andrade — Mobile Engineer AI-Driven. Flutter specialist com atuação em apps de milhões de usuários no mercado financeiro." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' stroke='%23CBD5F5' stroke-width='2' fill='none'/%3E%3C/svg%3E" />
   </head>
   <body>
-    <div class="canvas-wrap" aria-hidden="true"></div>
 
-    <main class="page">
-      <header class="hero" id="top">
-        <div class="hero__badge">Caio Andrade</div>
-        <div>
-          <h1>Desenvolvedor Mobile & Full Stack</h1>
-          <p>
-            Engenheiro de Software Mobile com foco em Flutter e Kotlin Multiplatform.
-            Atuo hoje em uma grande instituição financeira, já fui consultor para
-            o setor farmacêutico e gosto de construir produtos end-to-end enquanto exploro projetos com IA.
-          </p>
-        </div>
-        <div class="hero__links">
-          <a href="https://github.com/caiodeandrade" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/caiodeandrade" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://medium.com/@caio.ale.andrade" target="_blank" rel="noreferrer">Medium</a>
-          <button class="copy-email" type="button" data-copy-email="caioaleandrade@outlook.com">Copiar e-mail</button>
-        </div>
-      </header>
+    <!-- NAV -->
+    <nav class="nav">
+      <span class="nav__logo">CA</span>
+      <div class="nav__links">
+        <a href="#sobre">Sobre</a>
+        <a href="#artigos">Artigos</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </nav>
 
-      <section class="panel" id="sobre">
-        <h2>Sobre</h2>
-        <p>
-          Sou desenvolvedor especializado em mobile, com experiência no desenvolvimento e evolução de mais de 10 aplicativos. Trabalho no mercado financeiro, em uma instituição que atende milhões de clientes, lidando com requisitos de escala, performance e confiabilidade no dia a dia. Tenho uma abordagem AI-driven, utilizando inteligência artificial como aliada na prototipação, automação e construção de soluções mais eficientes, sempre buscando evoluir tecnicamente e acompanhar de perto o ritmo da inovação.
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__canvas-wrap" id="canvas-wrap"></div>
+
+      <div class="hero__content">
+        <p class="hero__eyebrow">São Paulo, Brasil</p>
+        <div class="hero__title-wrap">
+          <h1 class="hero__title" id="typewriter-title">
+            <span class="typewriter-text"></span><span class="typewriter-cursor">|</span>
+          </h1>
+        </div>
+        <p class="hero__sub">Mobile Engineer <span class="hero__dot">·</span> AI-Driven</p>
+        <p class="hero__desc">
+          Flutter specialist com atuação em +10 apps e 5M de usuários.<br/>
+          XP Inc. · Mercado financeiro, farmácia & esportes.
         </p>
-      </section>
+        <div class="hero__actions">
+          <a href="https://github.com/caiodeandrade" target="_blank" rel="noreferrer" class="btn btn--ghost">GitHub</a>
+          <a href="https://www.linkedin.com/in/caio-alexandre-de-andrade-06a408245/" target="_blank" rel="noreferrer" class="btn btn--ghost">LinkedIn</a>
+          <a href="https://medium.com/@caio.ale.andrade" target="_blank" rel="noreferrer" class="btn btn--ghost">Medium</a>
+          <button class="btn btn--outline" type="button" data-copy-email="caioaleandrade@outlook.com">Copiar e-mail</button>
+        </div>
+      </div>
 
-      <section class="panel" id="projetos">
-        <h2>Projetos &amp; Skills</h2>
-        <ul class="skills">
-          <li>Flutter / Kotlin Multiplatform</li>
-          <li>React / Node.js</li>
-          <li>Python (APIs, dados, automações, LangChain)</li>
-          <li>PostgreSQL</li>
-          <li>Integração frontend + backend</li>
-        </ul>
-      </section>
+      <div class="hero__scroll-hint">
+        <span>scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
 
-      <section class="panel" id="artigos">
-        <div class="panel__header">
-          <div>
-            <h2>Artigos e insights no Medium</h2>
-            <p>
-              Compartilho experiências e aprendizados sobre mobile, engenharia full stack e AI. Aqui entram os textos mais recentes que publiquei no Medium.
+    <!-- SOBRE -->
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="about">
+          <div class="about__label">
+            <span class="label-text">01 — Sobre</span>
+          </div>
+          <div class="about__body">
+            <p class="about__text">
+              Engenheiro de Software Mobile especializado em Flutter, com atuação em mais de 10 aplicativos que somam 5 milhões de usuários ativos em setores como mercado financeiro, farmácia e esportes.
+            </p>
+            <p class="about__text">
+              Atualmente na <em>XP Inc.</em>, uma das maiores plataformas de investimentos do Brasil, contribuindo para produtos mobile de alto impacto e escala. Tenho experiência sólida em desenvolvimento ágil, arquitetura de aplicações híbridas e integração com APIs complexas e real time.
+            </p>
+            <p class="about__text">
+              Trabalho com um mindset AI-Driven: IA não é um recurso extra no meu processo, é camada presente no planejamento, no código e na resolução de problemas.
+            </p>
+            <p class="about__text about__text--muted">
+              Inglês fluente (High School na University of Missouri-Columbia, EUA) e espanhol intermediário com experiência prática em times LATAM.
             </p>
           </div>
-          <a
-            class="cta"
-            href="https://medium.com/@caio.ale.andrade"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver perfil completo
-          </a>
         </div>
-        <div class="medium-grid" data-medium-list>
-          <div class="medium-grid__loading">Carregando artigos…</div>
-        </div>
-      </section>
 
-      <section class="panel" id="contato">
-        <h2>Contato</h2>
-        <p>
-          Disponível para networking, colaboração em projetos e mentorias. Vamos conversar sobre mobile, full stack ou IA?
-        </p>
-        <a class="cta" href="mailto:caioaleandrade@outlook.com">Escrever um e-mail</a>
-      </section>
-    </main>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__num">10+</span>
+            <span class="stat__label">Apps entregues</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">5M</span>
+            <span class="stat__label">Usuários ativos</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">3</span>
+            <span class="stat__label">Setores de atuação</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">3+</span>
+            <span class="stat__label">Anos de experiência</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARTIGOS -->
+    <section class="section section--dark" id="artigos">
+      <div class="container">
+        <div class="section__header">
+          <span class="label-text">02 — Artigos no Medium</span>
+          <a href="https://medium.com/@caio.ale.andrade" target="_blank" rel="noreferrer" class="link-arrow">Ver todos →</a>
+        </div>
+        <div class="articles" data-medium-list>
+          <div class="articles__loading">Carregando artigos…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="section" id="contato">
+      <div class="container">
+        <div class="contact">
+          <span class="label-text">03 — Contato</span>
+          <h2 class="contact__title">Vamos conversar<em>.</em></h2>
+          <p class="contact__sub">Disponível para networking, colaboração em projetos e mentorias.</p>
+          <div class="contact__actions">
+            <button class="btn btn--primary" type="button" data-copy-email="caioaleandrade@outlook.com">Copiar e-mail</button>
+            <a href="https://www.linkedin.com/in/caio-alexandre-de-andrade-06a408245/" target="_blank" rel="noreferrer" class="btn btn--ghost">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 Caio Andrade</span>
+      <span>Mobile Engineer · AI-Driven</span>
+    </footer>
 
     <script type="module" src="script.js"></script>
   </body>

@@ -1,237 +1,224 @@
 import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
 
-const scene = new THREE.Scene();
+// ── TYPEWRITER TITLE ─────────────────────────────────────────────────────────
 
-const camera = new THREE.PerspectiveCamera(
-  50,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
-camera.position.set(0, 0, 4);
+function initTypewriter() {
+  const textEl = document.querySelector(".typewriter-text");
+  const cursor = document.querySelector(".typewriter-cursor");
+  if (!textEl || !cursor) return;
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-document.querySelector(".canvas-wrap").appendChild(renderer.domElement);
+  const FULL_TEXT = "Caio Andrade";
+  const CHAR_DELAY = 80;   // ms per character
+  const START_DELAY = 600; // ms before starting
 
-const mainLight = new THREE.PointLight(0x64bdfb, 1.6, 12);
-mainLight.position.set(2, 2, 3);
-scene.add(mainLight);
+  let i = 0;
 
-const fillLight = new THREE.PointLight(0x1f2240, 0.7, 10);
-fillLight.position.set(-3, -2, 2);
-scene.add(fillLight);
-
-scene.add(new THREE.AmbientLight(0xffffff, 1));
-
-const particleCount = 200;
-const positions = new Float32Array(particleCount * 3);
-for (let i = 0; i < particleCount; i++) {
-  const radius = 1.5 + Math.random() * 1.2;
-  const angle = Math.random() * Math.PI * 2;
-  const height = (Math.random() - 0.5) * 0.6;
-  positions[i * 3 + 0] = Math.cos(angle) * radius;
-  positions[i * 3 + 1] = height;
-  positions[i * 3 + 2] = Math.sin(angle) * radius;
-}
-
-const particleGeometry = new THREE.BufferGeometry();
-particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-const particleMaterial = new THREE.PointsMaterial({
-  color: 0x79bdfd,
-  size: 0.02,
-  transparent: true,
-  opacity: 0.8,
-});
-const particleField = new THREE.Points(particleGeometry, particleMaterial);
-scene.add(particleField);
-
-const orbGroup = new THREE.Group();
-const ringMaterial = new THREE.MeshStandardMaterial({
-  color: 0x64bdfb,
-  emissive: 0x0e1f41,
-  transparent: true,
-  opacity: 0.65,
-});
-
-for (let i = 0; i < 3; i++) {
-  const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(1.2 + i * 0.25, 0.014, 12, 120),
-    ringMaterial
-  );
-  torus.rotation.x = Math.PI / 2;
-  torus.rotation.y = (Math.PI / 6) * i;
-  orbGroup.add(torus);
-}
-
-scene.add(orbGroup);
-
-const coreMaterial = new THREE.MeshStandardMaterial({
-  color: 0x101426,
-  emissive: 0x64bdfb,
-  emissiveIntensity: 0.4,
-  metalness: 0.3,
-  roughness: 0.35,
-});
-const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 2), coreMaterial);
-scene.add(core);
-
-const glowMaterial = new THREE.MeshBasicMaterial({
-  color: 0x64bdfb,
-  transparent: true,
-  opacity: 0.2,
-});
-const glow = new THREE.Mesh(new THREE.IcosahedronGeometry(0.95, 1), glowMaterial);
-scene.add(glow);
-
-const pointer = new THREE.Vector2();
-window.addEventListener("pointermove", (event) => {
-  pointer.x = (event.clientX / window.innerWidth - 0.5) * 2;
-  pointer.y = -(event.clientY / window.innerHeight - 0.5) * 2;
-});
-
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-  const time = clock.getElapsedTime();
-
-  orbGroup.rotation.x = time * 0.2;
-  orbGroup.rotation.y = time * 0.3;
-
-  particleField.rotation.y = time * 0.05;
-  particleField.rotation.x = Math.sin(time * 0.2) * 0.1;
-
-  core.rotation.y = time * 0.4;
-  glow.rotation.y = time * 0.4;
-
-  core.position.x += (pointer.x * 0.2 - core.position.x) * 0.08;
-  core.position.y += (pointer.y * 0.15 - core.position.y) * 0.08;
-  glow.position.copy(core.position);
-
-  particleField.position.x = Math.sin(time * 0.15) * 0.15;
-
-  mainLight.position.x = pointer.x * 2;
-  mainLight.position.y = pointer.y * 2 + 1;
-
-  renderer.render(scene, camera);
-}
-
-animate();
-
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-const copyText = (value) => {
-  if (navigator.clipboard?.writeText) {
-    return navigator.clipboard.writeText(value);
+  function type() {
+    if (i <= FULL_TEXT.length) {
+      textEl.textContent = FULL_TEXT.slice(0, i);
+      i++;
+      setTimeout(type, CHAR_DELAY);
+    } else {
+      // Blink cursor a few times then fade it out
+      cursor.classList.add("typewriter-cursor--done");
+    }
   }
 
-  return new Promise((resolve, reject) => {
-    const textarea = document.createElement("textarea");
-    textarea.value = value;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    textarea.setAttribute("readonly", "");
-    document.body.appendChild(textarea);
-    textarea.select();
-    textarea.setSelectionRange(0, value.length);
-    const successful = document.execCommand("copy");
-    document.body.removeChild(textarea);
-    successful ? resolve() : reject(new Error("copy failed"));
-  });
-};
+  setTimeout(type, START_DELAY);
+}
 
-document.querySelectorAll("[data-copy-email]").forEach((button) => {
-  const defaultText = button.textContent;
-  button.addEventListener("click", () => {
-    const email = button.dataset.copyEmail;
-    copyText(email)
-      .then(() => {
-        button.classList.add("copied");
-        button.textContent = "Copiado!";
-        setTimeout(() => {
-          button.classList.remove("copied");
-          button.textContent = defaultText;
-        }, 1800);
-      })
-      .catch(() => {
-        button.textContent = "Erro ao copiar";
-        setTimeout(() => (button.textContent = defaultText), 1800);
-      });
-  });
-});
+// ── SUBTLE BACKGROUND PARTICLES ─────────────────────────────────────────────
 
-const mediumRoot = document.querySelector("[data-medium-list]");
-if (mediumRoot) {
+function initBackgroundParticles() {
+  const wrap = document.getElementById("canvas-wrap");
+  if (!wrap) return;
+
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+  renderer.domElement.style.position = "absolute";
+  renderer.domElement.style.inset = "0";
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 200);
+  camera.position.z = 80;
+
+  const COUNT = 120;
+  const pos = new Float32Array(COUNT * 3);
+  for (let i = 0; i < COUNT; i++) {
+    pos[i * 3 + 0] = (Math.random() - 0.5) * 160;
+    pos[i * 3 + 1] = (Math.random() - 0.5) * 90;
+    pos[i * 3 + 2] = (Math.random() - 0.5) * 60;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+
+  const mat = new THREE.PointsMaterial({
+    color: 0xc8a96e,
+    size: 0.35,
+    transparent: true,
+    opacity: 0.25,
+  });
+
+  scene.add(new THREE.Points(geo, mat));
+
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+    scene.rotation.y = t * 0.02;
+    scene.rotation.x = Math.sin(t * 0.015) * 0.1;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener("resize", () => {
+    const nW = window.innerWidth;
+    const nH = window.innerHeight;
+    camera.aspect = nW / nH;
+    camera.updateProjectionMatrix();
+    renderer.setSize(nW, nH);
+  });
+}
+
+// ── COPY EMAIL ───────────────────────────────────────────────────────────────
+
+function initCopyEmail() {
+  document.querySelectorAll("[data-copy-email]").forEach((btn) => {
+    const defaultText = btn.textContent;
+    btn.addEventListener("click", () => {
+      const email = btn.dataset.copyEmail;
+      const copy = navigator.clipboard?.writeText
+        ? navigator.clipboard.writeText(email)
+        : new Promise((res, rej) => {
+            const ta = Object.assign(document.createElement("textarea"), {
+              value: email,
+              style: "position:fixed;opacity:0",
+            });
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy") ? res() : rej();
+            ta.remove();
+          });
+
+      copy
+        .then(() => {
+          btn.classList.add("copied");
+          btn.textContent = "Copiado! ✓";
+          setTimeout(() => {
+            btn.classList.remove("copied");
+            btn.textContent = defaultText;
+          }, 2000);
+        })
+        .catch(() => {
+          btn.textContent = "Erro ao copiar";
+          setTimeout(() => (btn.textContent = defaultText), 2000);
+        });
+    });
+  });
+}
+
+// ── MEDIUM ARTICLES ──────────────────────────────────────────────────────────
+
+function formatDate(str) {
+  if (!str) return "";
+  const d = new Date(str);
+  if (isNaN(d)) return "";
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function createArticleCard(article) {
+  const a = document.createElement("a");
+  a.className = "article-card";
+  a.href = article.url;
+  a.target = "_blank";
+  a.rel = "noreferrer";
+
+  const cover = document.createElement("div");
+  cover.className = "article-card__cover";
+  if (article.coverImage) {
+    cover.style.backgroundImage = `url('${article.coverImage}')`;
+  }
+  const date = document.createElement("span");
+  date.className = "article-card__date";
+  date.textContent = formatDate(article.publishedAt);
+  cover.appendChild(date);
+
+  const body = document.createElement("div");
+  body.className = "article-card__body";
+
+  const title = document.createElement("h3");
+  title.className = "article-card__title";
+  title.textContent = article.title;
+
+  const excerpt = document.createElement("p");
+  excerpt.className = "article-card__excerpt";
+  excerpt.textContent = article.excerpt;
+
+  const cta = document.createElement("span");
+  cta.className = "article-card__cta";
+  cta.textContent = "Ler no Medium →";
+
+  body.append(title, excerpt, cta);
+  a.append(cover, body);
+  return a;
+}
+
+function initMedium() {
+  const root = document.querySelector("[data-medium-list]");
+  if (!root) return;
+
   fetch("data/medium.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Falha no carregamento");
-      }
-      return response.json();
+    .then((r) => {
+      if (!r.ok) throw new Error();
+      return r.json();
     })
     .then((articles) => {
-      mediumRoot.innerHTML = "";
-      articles.forEach((article, index) => {
-        mediumRoot.appendChild(createMediumCard(article, index));
-      });
+      root.innerHTML = "";
+      articles.forEach((a) => root.appendChild(createArticleCard(a)));
     })
     .catch(() => {
-      mediumRoot.innerHTML = '<div class="medium-grid__loading">Erro ao carregar artigos.</div>';
+      root.innerHTML = '<p class="articles__loading">Erro ao carregar artigos.</p>';
     });
 }
 
-function createMediumCard(article, index) {
-  const card = document.createElement("article");
-  card.className = "medium-card";
-  card.style.animationDelay = `${index * 80}ms`;
+// ── SCROLL REVEAL ────────────────────────────────────────────────────────────
 
-  const cover = document.createElement("div");
-  cover.className = "medium-card__cover";
-  if (article.coverImage) {
-    cover.style.backgroundImage = `linear-gradient(180deg, rgba(3, 3, 9, 0.1), rgba(3, 3, 9, 0.8)), url('${article.coverImage}')`;
-  }
-  const badge = document.createElement("span");
-  badge.className = "medium-card__badge";
-  badge.textContent = formatDateBadge(article.publishedAt);
-  cover.appendChild(badge);
+function initScrollReveal() {
+  const els = document.querySelectorAll(".about__text, .stat, .contact__title, .contact__sub");
+  els.forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+  });
 
-  const body = document.createElement("div");
-  body.className = "medium-card__body";
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = "1";
+          e.target.style.transform = "translateY(0)";
+          obs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
 
-  const title = document.createElement("h3");
-  title.className = "medium-card__title";
-  const titleLink = document.createElement("a");
-  titleLink.href = article.url;
-  titleLink.target = "_blank";
-  titleLink.rel = "noreferrer";
-  titleLink.textContent = article.title;
-  title.appendChild(titleLink);
-
-  const excerpt = document.createElement("p");
-  excerpt.className = "medium-card__excerpt";
-  excerpt.textContent = article.excerpt;
-
-  const readMore = document.createElement("a");
-  readMore.className = "medium-card__link";
-  readMore.href = article.url;
-  readMore.target = "_blank";
-  readMore.rel = "noreferrer";
-  readMore.textContent = "Ler no Medium →";
-
-  body.append(title, excerpt, readMore);
-  card.append(cover, body);
-  return card;
+  els.forEach((el) => obs.observe(el));
 }
 
-function formatDateBadge(dateString) {
-  if (!dateString) return "Medium";
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return "Medium";
-  return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
-}
+// ── INIT ─────────────────────────────────────────────────────────────────────
+
+initBackgroundParticles();
+initTypewriter();
+initCopyEmail();
+initMedium();
+initScrollReveal();
