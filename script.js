@@ -4,7 +4,7 @@ import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
 
 function initTypewriter() {
   const textEl = document.querySelector(".typewriter-text");
-  const cursor = document.querySelector(".typewriter-cursor");
+  const cursor = document.querySelector(".typewriter-cursor"); 
   if (!textEl || !cursor) return;
 
   const FULL_TEXT = "Caio Andrade";
